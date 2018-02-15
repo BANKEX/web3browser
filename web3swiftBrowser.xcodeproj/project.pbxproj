@@ -15,6 +15,8 @@
 		81E09B2D2002623A005DF51D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81E09B2B2002623A005DF51D /* LaunchScreen.storyboard */; };
 		81E09B382002623B005DF51D /* web3swiftBrowserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E09B372002623B005DF51D /* web3swiftBrowserTests.swift */; };
 		81E09B432002623B005DF51D /* web3swiftBrowserUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E09B422002623B005DF51D /* web3swiftBrowserUITests.swift */; };
+		81E09B602002C100005DF51D /* Web3Swift.js in Resources */ = {isa = PBXBuildFile; fileRef = 81E09B5F2002C0FF005DF51D /* Web3Swift.js */; };
+		C2C40799AB45A254C5B8B694 /* Pods_web3swiftBrowser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D2B1946592C2F6161DF2A16 /* Pods_web3swiftBrowser.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2F89255F9B9DFBDF61D676C1 /* Pods-web3swiftBrowser.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-web3swiftBrowser.debug.xcconfig"; path = "Pods/Target Support Files/Pods-web3swiftBrowser/Pods-web3swiftBrowser.debug.xcconfig"; sourceTree = "<group>"; };
+		3D2B1946592C2F6161DF2A16 /* Pods_web3swiftBrowser.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_web3swiftBrowser.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		81E09B1C2002623A005DF51D /* web3swiftBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = web3swiftBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81E09B1F2002623A005DF51D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		81E09B212002623A005DF51D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -49,6 +53,8 @@
 		81E09B3E2002623B005DF51D /* web3swiftBrowserUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = web3swiftBrowserUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		81E09B422002623B005DF51D /* web3swiftBrowserUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = web3swiftBrowserUITests.swift; sourceTree = "<group>"; };
 		81E09B442002623B005DF51D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		81E09B5F2002C0FF005DF51D /* Web3Swift.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Web3Swift.js; sourceTree = "<group>"; };
+		FE32BFE26D945D8D376882BB /* Pods-web3swiftBrowser.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-web3swiftBrowser.release.xcconfig"; path = "Pods/Target Support Files/Pods-web3swiftBrowser/Pods-web3swiftBrowser.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2C40799AB45A254C5B8B694 /* Pods_web3swiftBrowser.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,6 +83,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		781266D867FD7907798A4689 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3D2B1946592C2F6161DF2A16 /* Pods_web3swiftBrowser.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		81E09B132002623A005DF51D = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +98,8 @@
 				81E09B362002623B005DF51D /* web3swiftBrowserTests */,
 				81E09B412002623B005DF51D /* web3swiftBrowserUITests */,
 				81E09B1D2002623A005DF51D /* Products */,
+				F77DEFCDCCAAB6607113C871 /* Pods */,
+				781266D867FD7907798A4689 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,6 +116,7 @@
 		81E09B1E2002623A005DF51D /* web3swiftBrowser */ = {
 			isa = PBXGroup;
 			children = (
+				81E09B5F2002C0FF005DF51D /* Web3Swift.js */,
 				81E09B1F2002623A005DF51D /* AppDelegate.swift */,
 				81E09B212002623A005DF51D /* ViewController.swift */,
 				81E09B232002623A005DF51D /* Main.storyboard */,
@@ -128,6 +146,15 @@
 			path = web3swiftBrowserUITests;
 			sourceTree = "<group>";
 		};
+		F77DEFCDCCAAB6607113C871 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				2F89255F9B9DFBDF61D676C1 /* Pods-web3swiftBrowser.debug.xcconfig */,
+				FE32BFE26D945D8D376882BB /* Pods-web3swiftBrowser.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -135,9 +162,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 81E09B472002623B005DF51D /* Build configuration list for PBXNativeTarget "web3swiftBrowser" */;
 			buildPhases = (
+				9A11C03ACBB5B5900D5122FB /* [CP] Check Pods Manifest.lock */,
 				81E09B182002623A005DF51D /* Sources */,
 				81E09B192002623A005DF51D /* Frameworks */,
 				81E09B1A2002623A005DF51D /* Resources */,
+				062413EA48CB3776C65CDAF2 /* [CP] Embed Pods Frameworks */,
+				BB415F4E08EC27612FFD8532 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -236,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81E09B2D2002623A005DF51D /* LaunchScreen.storyboard in Resources */,
+				81E09B602002C100005DF51D /* Web3Swift.js in Resources */,
 				81E09B2A2002623A005DF51D /* Assets.xcassets in Resources */,
 				81E09B252002623A005DF51D /* Main.storyboard in Resources */,
 			);
@@ -256,6 +287,80 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		062413EA48CB3776C65CDAF2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-web3swiftBrowser/Pods-web3swiftBrowser-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/Alamofire-Synchronous/Alamofire_Synchronous.framework",
+				"${BUILT_PRODUCTS_DIR}/AwaitKit/AwaitKit.framework",
+				"${BUILT_PRODUCTS_DIR}/BigInt/BigInt.framework",
+				"${BUILT_PRODUCTS_DIR}/CryptoSwift/CryptoSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/PromiseKit/PromiseKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SipHash/SipHash.framework",
+				"${BUILT_PRODUCTS_DIR}/WKBridge/WKBridge.framework",
+				"${BUILT_PRODUCTS_DIR}/libsodium/libsodium.framework",
+				"${BUILT_PRODUCTS_DIR}/secp256k1_ios/secp256k1_ios.framework",
+				"${BUILT_PRODUCTS_DIR}/web3swift/web3swift.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire_Synchronous.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AwaitKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/BigInt.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CryptoSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SipHash.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WKBridge.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/libsodium.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/secp256k1_ios.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/web3swift.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-web3swiftBrowser/Pods-web3swiftBrowser-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9A11C03ACBB5B5900D5122FB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-web3swiftBrowser-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BB415F4E08EC27612FFD8532 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-web3swiftBrowser/Pods-web3swiftBrowser-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		81E09B182002623A005DF51D /* Sources */ = {
@@ -428,6 +533,7 @@
 		};
 		81E09B482002623B005DF51D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2F89255F9B9DFBDF61D676C1 /* Pods-web3swiftBrowser.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -443,6 +549,7 @@
 		};
 		81E09B492002623B005DF51D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FE32BFE26D945D8D376882BB /* Pods-web3swiftBrowser.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
