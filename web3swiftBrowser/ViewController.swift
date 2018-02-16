@@ -81,21 +81,19 @@ class BrowserViewController: UIViewController {
             webView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             ])
         
-        webView.load(URLRequest(url: URL(string: "https://plasma.bankex.com")!))
+        webView.load(URLRequest(url: URL(string: "https://ownanumber.github.io/")!))
         
 //        async {
             do {
                 let userDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
-                let keystoreManager = KeystoreManagerV3.managerForPath(userDir + "/keystore")
+                let keystoreManager = KeystoreManager.managerForPath(userDir + "/keystore")
                 var ks: EthereumKeystoreV3?
-                if (keystoreManager?.wallets.keys.count == 0) {
+                if (keystoreManager?.addresses?.count == 0) {
                     ks = try EthereumKeystoreV3(password: "BANKEXFOUNDATION")
                     let keydata = try JSONEncoder().encode(ks!.keystoreParams)
                     FileManager.default.createFile(atPath: userDir + "/keystore"+"/key.json", contents: keydata, attributes: nil)
-                } else {
-                    ks = keystoreManager?.wallets[(keystoreManager?.knownAddresses[0])!]
                 }
-                guard let sender = ks?.address else {return}
+                guard let sender = keystoreManager?.addresses![0] else {return}
                 print(sender)
                 let web3 = Web3.InfuraRinkebyWeb3()
                 web3.addKeystoreManager(keystoreManager)
