@@ -539,6 +539,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 62V9CKQN89;
 				INFOPLIST_FILE = web3swiftBrowser/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.bankexfoundation.web3swiftBrowser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -555,6 +556,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 62V9CKQN89;
 				INFOPLIST_FILE = web3swiftBrowser/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = org.bankexfoundation.web3swiftBrowser;
 				PRODUCT_NAME = "$(TARGET_NAME)";
