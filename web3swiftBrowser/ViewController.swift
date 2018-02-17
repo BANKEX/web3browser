@@ -24,8 +24,8 @@ enum JSRequestsError: String {
 class BrowserViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: Settings Constants:
-    let askConfirmationForTransactionsByDefault = true
-    
+    let askConfirmationForSigning = true
+
     enum Method: String {
         case getAccounts
         case signTransaction
@@ -123,7 +123,6 @@ class BrowserViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    var completionForSignTransactionEvent: (_ results: Bridge.Results) -> Void = {_ in }
     fileprivate func registerCallbacks(_ web3: web3) {
         self.webView.bridge.register({ (parameters, completion) in
             let url = web3.provider.url.absoluteString
@@ -140,69 +139,75 @@ class BrowserViewController: UIViewController, UITextFieldDelegate {
             completion(.success(["coinbase": coinbase as Any]))
         }, for: "eth_coinbase")
         
-        self.webView.bridge.register({[weak self] (parameters, completion) in
-            guard let (result, errorString) = self?.signedMessage(with: parameters, in: web3) else {
-                completion(.failure(Bridge.JSError(code: 0, description: JSRequestsError.genericError.rawValue)))
-                return
-            }
-            if let errorDescription = errorString {
-                completion(.failure(Bridge.JSError(code: 0, description: errorDescription)))
-            }
-            guard let signedResult = result else {
-                completion(.failure(Bridge.JSError(code: 0, description: JSRequestsError.genericError.rawValue)))
-                return
-            }
-            completion(.success(["signedMessage": signedResult]))
-        }, for: "eth_sign")
-        
+        addHandlerToSignMessage(web3)
+        addHandlerToSignTransaction(web3)
+    }
+
+    fileprivate func addHandlerToSignTransaction(_ web3: web3) {
         self.webView.bridge.register({ (parameters, completion) in
             guard let parameters = parameters else {
                 completion(.failure(Bridge.JSError(code: 0, description: JSRequestsError.noParamaters.rawValue)))
                 return
             }
-            
             guard let transaction = parameters["transaction"] as? [String:Any] else {
                 completion(.failure(Bridge.JSError(code: 0, description: JSRequestsError.notEnoughParameters.rawValue)))
                 return
             }
-            self.completionForSignTransactionEvent = completion
             self.showConfirmation(
                 for: transaction,
                 confirmCallback: {
                     guard let result = web3.hookedFunctions.signTransaction(transaction) else {
-                        self.completionForSignTransactionEvent(.failure(Bridge.JSError(code: 0, description: JSRequestsError.dataIsInvalid.rawValue)))
+                        completion(.failure(Bridge.JSError(code: 0, description: JSRequestsError.dataIsInvalid.rawValue)))
                         return
                     }
-                    self.completionForSignTransactionEvent(.success(["signedTransaction": result]))
+                    completion(.success(["signedTransaction": result]))
             },
                 cancelCallback: {
-                    self.completionForSignTransactionEvent(.failure(Bridge.JSError(code: 0, description: JSRequestsError.genericError.rawValue)))
+                    completion(.failure(Bridge.JSError(code: 0, description: JSRequestsError.genericError.rawValue)))
             })
         }, for: "eth_signTransaction")
     }
     
-    
-    fileprivate func signedMessage(with parameters: [String: Any]?, in web3: web3) -> (Any?, String?) {
-        guard let parameters = parameters,
-            let payload = parameters["payload"] as? [String:Any] else {
-                return (nil, JSRequestsError.noParamaters.rawValue)
-        }
-        guard let personalMessage = payload["data"] as? String,
-            let account = payload["from"] as? String else {
-                return (nil, JSRequestsError.notEnoughParameters.rawValue)
-        }
-        let result = web3.hookedFunctions.personalSign(personalMessage, account: account)
-        if result == nil {
-            return (nil, JSRequestsError.accountOrDataIsInvalid.rawValue)
-        }
-        return (result, nil)
+    fileprivate func addHandlerToSignMessage(_ web3: web3) {
+        self.webView.bridge.register({[weak self] (parameters, completion) in
+            guard let parameters = parameters,
+                let payload = parameters["payload"] as? [String:Any] else {
+                    completion(.failure(Bridge.JSError(code: 0, description: JSRequestsError.noParamaters.rawValue)))
+                    return
+            }
+            guard let personalMessage = payload["data"] as? String,
+                let account = payload["from"] as? String else {
+                    completion(.failure(Bridge.JSError(code: 0, description: JSRequestsError.notEnoughParameters.rawValue)))
+                    return
+            }
+            self?.showConfirmation(for: payload, confirmCallback: {
+                guard let signedResult = web3.hookedFunctions.personalSign(personalMessage, account: account) else {
+                    completion(.failure(Bridge.JSError(code: 0, description: JSRequestsError.accountOrDataIsInvalid.rawValue)))
+                    return
+                }
+                completion(.success(["signedMessage": signedResult]))
+            }, cancelCallback: {
+                completion(.failure(Bridge.JSError(code: 0, description: JSRequestsError.genericError.rawValue)))
+            })
+            }, for: "eth_sign")
     }
+    
+    // MARK: TextFieldDelegate
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+    }
+    
+    //MARK: - Confirmation Controller
     
     var confirmationController: ConfirmationController?
     fileprivate func showConfirmation(for transaction: [String: Any],
-                          confirmCallback: @escaping ()->Void,
-                          cancelCallback: @escaping ()->Void) {
-        guard askConfirmationForTransactionsByDefault else {
+                                      confirmCallback: @escaping ()->Void,
+                                      cancelCallback: @escaping ()->Void) {
+        guard askConfirmationForSigning else {
             confirmCallback()
             return
         }
@@ -217,15 +222,6 @@ class BrowserViewController: UIViewController, UITextFieldDelegate {
         UIView.animate(withDuration: 0.25) {
             self.confirmationController!.view.alpha = 1
         }
-    }
-    
-    // MARK: TextFieldDelegate
-    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        return true
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        
     }
 }
 
