@@ -27,8 +27,10 @@ class MethodCallController: UITableViewController {
         switch abiToCall {
         case .function(let abiFunc):
             numberOfItems = (abiFunc.inputs.count == 0) ? 1 : abiFunc.inputs.count + 2
+            numberOfItems += abiFunc.payable ? 1 : 0
         case .constructor(let constructor):
             numberOfItems = (constructor.inputs.count == 0) ? 1 : constructor.inputs.count + 2
+            numberOfItems += constructor.payable ? 1 : 0
         case .fallback(let fallback):
             numberOfItems = 0
         case .event(let event):
@@ -58,9 +60,17 @@ class MethodCallController: UITableViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: inputDataCellId) as! InputParameterCell
             switch abiToCall {
             case .function(let function):
-                cell.parameterNameLabel.text = function.inputs[indexPath.row - 1].name
+                if indexPath.row - 1 == function.inputs.count && function.payable {
+                    cell.parameterNameLabel.text = "_value"
+                } else {
+                    cell.parameterNameLabel.text = function.inputs[indexPath.row - 1].name
+                }
             case .constructor(let construct):
-                cell.parameterNameLabel.text = construct.inputs[indexPath.row - 1].name
+                if indexPath.row - 1 == construct.inputs.count && construct.payable {
+                    cell.parameterNameLabel.text = "_value"
+                } else {
+                    cell.parameterNameLabel.text = construct.inputs[indexPath.row - 1].name
+                }
             case .event(let event):
                 cell.parameterNameLabel.text = event.inputs[indexPath.row - 1].name
             default:
@@ -70,4 +80,8 @@ class MethodCallController: UITableViewController {
         }
     }
 
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard indexPath.row == numberOfItems - 1 else {return}
+        
+    }
 }

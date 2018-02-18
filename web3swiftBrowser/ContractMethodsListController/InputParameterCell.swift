@@ -12,6 +12,7 @@ class InputParameterCell: UITableViewCell {
 
     @IBOutlet weak var parameterNameLabel: UILabel!
     @IBOutlet weak var parameterValueTextField: UITextField!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
