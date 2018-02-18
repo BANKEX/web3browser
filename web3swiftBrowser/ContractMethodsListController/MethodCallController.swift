@@ -113,6 +113,8 @@ class MethodCallController: UITableViewController {
 //        result = ""
 //        tableView.reloadData()
         var i = 0
+        var options = Web3Options()
+
         var parameters = [AnyObject]()
         switch abiToCall {
         case .function(let function):
@@ -139,7 +141,8 @@ class MethodCallController: UITableViewController {
                         return
                     }
                     parameters.append(BigUInt(amount) as AnyObject)
-                } else if nextInput.name == "_extraData" {
+                } else if nextInput.name == "_extraData" ||
+                    nextInput.type.abiRepresentation.hasPrefix("bytes") {
                     guard let data = Data.fromHex(text) else {return}
                     parameters.append(data as AnyObject)
                 } else if nextInput.type.abiRepresentation.hasPrefix("uint") {
@@ -153,6 +156,12 @@ class MethodCallController: UITableViewController {
                         return
                     }
                     parameters.append(BigUInt(number) as AnyObject)
+                }
+                if function.payable {
+                    guard let number = Int((textFields["_value"]?.text) ?? "") else {
+                        return
+                    }
+                    options.value = BigUInt(number)
                 }
             }
 //            if indexPath.row - 1 == function.inputs.count && function.payable {
@@ -172,7 +181,6 @@ class MethodCallController: UITableViewController {
             let i = 1;
         }
         
-        var options = Web3Options()
         options.gas = BigUInt(250000)
         options.gasPrice = BigUInt(25000000000)
         options.from = EthereumAddress("0xE6877A4d8806e9A9F12eB2e8561EA6c1db19978d")
