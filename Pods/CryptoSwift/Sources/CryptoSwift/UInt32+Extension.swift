@@ -1,5 +1,4 @@
 //
-//  UInt32Extension.swift
 //  CryptoSwift
 //
 //  Copyright (C) 2014-2017 Marcin Krzyżanowski <marcin@krzyzanowskim.com>
@@ -46,9 +45,5 @@ extension UInt32 {
         let val3 = count > 3 ? UInt32(bytes[index.advanced(by: 3)]) : 0
 
         self = val0 | val1 | val2 | val3
-    }
-
-    func bytes(totalBytes: Int = MemoryLayout<UInt32>.size) -> Array<UInt8> {
-        return arrayOfBytes(value: self, length: totalBytes)
     }
 }

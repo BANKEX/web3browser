@@ -1,5 +1,4 @@
 //
-//  UInt64Extension.swift
 //  CryptoSwift
 //
 //  Copyright (C) 2014-2017 Marcin Krzyżanowski <marcin@krzyzanowskim.com>
@@ -41,9 +40,5 @@ extension UInt64 {
         let val7 = count > 0 ? UInt64(bytes[index.advanced(by: 7)]) : 0
 
         self = val0 | val1 | val2 | val3 | val4 | val5 | val6 | val7
-    }
-
-    func bytes(totalBytes: Int = MemoryLayout<UInt64>.size) -> Array<UInt8> {
-        return arrayOfBytes(value: self, length: totalBytes)
     }
 }

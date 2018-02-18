@@ -1,6 +1,5 @@
 //
-//  PGPDataExtension.swift
-//  SwiftPGP
+//  CryptoSwift
 //
 //  Copyright (C) 2014-2017 Marcin Krzyżanowski <marcin@krzyzanowskim.com>
 //  This software is provided 'as-is', without any express or implied warranty.
@@ -79,6 +78,10 @@ extension Data {
 }
 
 extension Data {
+
+    public init(hex: String) {
+        self.init(bytes: Array<UInt8>(hex: hex))
+    }
 
     public var bytes: Array<UInt8> {
         return Array(self)

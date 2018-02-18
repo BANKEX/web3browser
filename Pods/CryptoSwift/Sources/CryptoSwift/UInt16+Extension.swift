@@ -1,5 +1,4 @@
 //
-//  UInt16+Extension.swift
 //  CryptoSwift
 //
 //  Copyright (C) 2014-2017 Marcin Krzyżanowski <marcin@krzyzanowskim.com>
@@ -35,9 +34,5 @@ extension UInt16 {
         let val1 = count > 1 ? UInt16(bytes[index.advanced(by: 1)]) : 0
 
         self = val0 | val1
-    }
-
-    func bytes(totalBytes: Int = MemoryLayout<UInt16>.size) -> Array<UInt8> {
-        return arrayOfBytes(value: self, length: totalBytes)
     }
 }
