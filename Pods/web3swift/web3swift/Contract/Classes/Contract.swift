@@ -10,9 +10,9 @@ import Foundation
 import BigInt
 
 public struct Contract {
-    var address: EthereumAddress? = nil
-    var _abi: [ABIElement]
-    var methods: [String: ABIElement] {
+    public var address: EthereumAddress? = nil
+    public var _abi: [ABIElement]
+    public var methods: [String: ABIElement] {
         var toReturn = [String: ABIElement]()
         for m in self._abi {
             switch m {
@@ -25,7 +25,7 @@ public struct Contract {
         }
         return toReturn
     }
-    var events: [String: ABIElement] {
+    public var events: [String: ABIElement] {
         var toReturn = [String: ABIElement]()
         for m in self._abi {
             switch m {

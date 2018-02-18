@@ -17,7 +17,7 @@ extension web3 {
     }
     
     public class web3contract {
-        var contract: Contract
+        public var contract: Contract
         var web3 : web3
         public var options: Web3Options? = nil
         

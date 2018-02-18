@@ -42,48 +42,48 @@ protocol AbiValidating {
 }
 
 public enum ABIElement {
-    case function(Function)
-    case constructor(Constructor)
-    case fallback(Fallback)
-    case event(Event)
+     case function(Function)
+     case constructor(Constructor)
+     case fallback(Fallback)
+     case event(Event)
 
     public struct Function {
-        let name: String?
-        let inputs: [Input]
-        let outputs: [Output]
-        let constant: Bool
-        let payable: Bool
-        struct Output {
-            let name: String
-            let type: ParameterType
+        public let name: String?
+        public let inputs: [Input]
+        public let outputs: [Output]
+        public let constant: Bool
+        public let payable: Bool
+        public struct Output {
+            public let name: String
+            public let type: ParameterType
         }
         
-        struct Input {
-            let name: String
-            let type: ParameterType
+        public struct Input {
+            public let name: String
+            public let type: ParameterType
         }
     }
 
     public struct Constructor {
-        let inputs: [Function.Input]
-        let constant: Bool
-        let payable: Bool
+        public let inputs: [Function.Input]
+        public let constant: Bool
+        public let payable: Bool
     }
     
     public struct Fallback {
-        let constant: Bool
-        let payable: Bool
+        public let constant: Bool
+        public let payable: Bool
     }
     
     public struct Event {
-        let name: String
-        let inputs: [Input]
-        let anonymous: Bool
+        public let name: String
+        public let inputs: [Input]
+        public let anonymous: Bool
         
-        struct Input {
-            let name: String
-            let type: ParameterType
-            let indexed: Bool
+        public struct Input {
+            public let name: String
+            public let type: ParameterType
+            public let indexed: Bool
         }
     }
     
