@@ -146,13 +146,13 @@ class MethodCallController: UITableViewController {
                     guard let number = UInt(text) else {
                         return
                     }
-                    parameters.append(number as AnyObject)
+                    parameters.append(BigUInt(number) as AnyObject)
                 }
                 else if nextInput.type.abiRepresentation.hasPrefix("int") {
                     guard let number = Int(text) else {
                         return
                     }
-                    parameters.append(number as AnyObject)
+                    parameters.append(BigUInt(number) as AnyObject)
                 }
             }
 //            if indexPath.row - 1 == function.inputs.count && function.payable {
@@ -180,7 +180,7 @@ class MethodCallController: UITableViewController {
         var localResult = ""
         for (key, value) in bkxBalance ?? [:] {
             print("\(key) = \(value)")
-            localResult += "\(value)\n"
+            localResult += "\(key) = \(value)\n"
         }
         for (_, textfield) in textFields {
             textfield.text = ""
