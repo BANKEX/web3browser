@@ -21,6 +21,8 @@
 		F07DB3552038E79D007CA1F1 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07DB3542038E79D007CA1F1 /* SettingsController.swift */; };
 		F0A911B520392B2D006460FE /* ContractMethodsListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A911B420392B2D006460FE /* ContractMethodsListController.swift */; };
 		F0A911B720392BD3006460FE /* DefaultContract.json in Resources */ = {isa = PBXBuildFile; fileRef = F0A911B620392BD3006460FE /* DefaultContract.json */; };
+		F0A911B9203936D6006460FE /* MethodCallController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A911B8203936D6006460FE /* MethodCallController.swift */; };
+		F0A911BB20393A2A006460FE /* InputParameterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A911BA20393A2A006460FE /* InputParameterCell.swift */; };
 		F0DD0D9C2037F94A00327D25 /* ConfirmationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DD0D9A2037F94A00327D25 /* ConfirmationController.swift */; };
 		F0DD0D9D2037F94A00327D25 /* ConfirmationController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F0DD0D9B2037F94A00327D25 /* ConfirmationController.xib */; };
 /* End PBXBuildFile section */
@@ -64,6 +66,8 @@
 		F07DB3542038E79D007CA1F1 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		F0A911B420392B2D006460FE /* ContractMethodsListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractMethodsListController.swift; sourceTree = "<group>"; };
 		F0A911B620392BD3006460FE /* DefaultContract.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DefaultContract.json; sourceTree = "<group>"; };
+		F0A911B8203936D6006460FE /* MethodCallController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MethodCallController.swift; sourceTree = "<group>"; };
+		F0A911BA20393A2A006460FE /* InputParameterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputParameterCell.swift; sourceTree = "<group>"; };
 		F0DD0D9A2037F94A00327D25 /* ConfirmationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationController.swift; sourceTree = "<group>"; };
 		F0DD0D9B2037F94A00327D25 /* ConfirmationController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConfirmationController.xib; sourceTree = "<group>"; };
 		FE32BFE26D945D8D376882BB /* Pods-web3swiftBrowser.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-web3swiftBrowser.release.xcconfig"; path = "Pods/Target Support Files/Pods-web3swiftBrowser/Pods-web3swiftBrowser.release.xcconfig"; sourceTree = "<group>"; };
@@ -183,6 +187,8 @@
 			isa = PBXGroup;
 			children = (
 				F0A911B420392B2D006460FE /* ContractMethodsListController.swift */,
+				F0A911B8203936D6006460FE /* MethodCallController.swift */,
+				F0A911BA20393A2A006460FE /* InputParameterCell.swift */,
 			);
 			path = ContractMethodsListController;
 			sourceTree = "<group>";
@@ -423,8 +429,10 @@
 				F07DB3552038E79D007CA1F1 /* SettingsController.swift in Sources */,
 				F0A911B520392B2D006460FE /* ContractMethodsListController.swift in Sources */,
 				F020F1982038FFEF002C3C65 /* CreateNewKeyController.swift in Sources */,
+				F0A911BB20393A2A006460FE /* InputParameterCell.swift in Sources */,
 				81E09B222002623A005DF51D /* ViewController.swift in Sources */,
 				81E09B282002623A005DF51D /* web3swiftBrowser.xcdatamodeld in Sources */,
+				F0A911B9203936D6006460FE /* MethodCallController.swift in Sources */,
 				81E09B202002623A005DF51D /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
