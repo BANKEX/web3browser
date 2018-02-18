@@ -76,6 +76,7 @@ class ContractMethodsListController: UITableViewController {
             for (key, _) in contractToShow?.methods ?? [:] {
                 keysOfMethods.append(key)
             }
+            keysOfMethods.sort()
 //            var res = intermediate?.call(options: options)
 //            guard let result = res else {return}
 //            print("BKX token name = " + (result["0"] as! String))
