@@ -23,7 +23,7 @@ enum JSRequestsError: String {
 
 class BrowserViewController: UIViewController, UITextFieldDelegate {
     
-    let sURL =  "https://ownanumber.github.io/"
+    let sURL =  "https://bankex.github.io/ETHDenver_Demo"
 
     // MARK: Settings Constants:
     let askConfirmationForSigning = true
