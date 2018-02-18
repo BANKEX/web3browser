@@ -116,8 +116,11 @@ class MethodCallController: UITableViewController {
         var options = Web3Options()
 
         var parameters = [AnyObject]()
+        var isMutating = false
+        
         switch abiToCall {
         case .function(let function):
+//            isMutating = !function.constant
             for nextInput in function.inputs {
                 var key = nextInput.name
                 if key.count == 0 {
@@ -146,16 +149,12 @@ class MethodCallController: UITableViewController {
                     guard let data = Data.fromHex(text) else {return}
                     parameters.append(data as AnyObject)
                 } else if nextInput.type.abiRepresentation.hasPrefix("uint") {
-                    guard let number = UInt(text) else {
-                        return
-                    }
-                    parameters.append(BigUInt(number) as AnyObject)
+                    let characters = Array(text.flatMap{UInt(String($0))}.reversed())
+                    parameters.append(BigUInt(words: characters) as AnyObject)
                 }
                 else if nextInput.type.abiRepresentation.hasPrefix("int") {
-                    guard let number = Int(text) else {
-                        return
-                    }
-                    parameters.append(BigUInt(number) as AnyObject)
+                    let characters = text.flatMap{UInt(String($0))}.reversed()
+                    parameters.append(BigUInt(words: characters) as AnyObject)
                 }
                 if function.payable {
                     guard let number = Int((textFields["_value"]?.text) ?? "") else {
@@ -185,7 +184,13 @@ class MethodCallController: UITableViewController {
         options.gasPrice = BigUInt(25000000000)
         
         options.from = EthereumAddress(UserDefaults.standard.string(forKey: "SelectedAddress") ?? "")
-        let bkxBalance = fullContract?.method(title ?? "", parameters: parameters, options: options)?.call(options: options)
+        
+        var bkxBalance: [String: Any]?
+        if isMutating {
+            bkxBalance = fullContract?.method(title ?? "", parameters: parameters, options: options)?.send(password: "BANKEXFOUNDATION", options: options)
+        } else {
+         bkxBalance = fullContract?.method(title ?? "", parameters: parameters, options: options)?.call(options: options)
+        }
         var localResult = ""
         for (key, value) in bkxBalance ?? [:] {
             print("\(key) = \(value)")
