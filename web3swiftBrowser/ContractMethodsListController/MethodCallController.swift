@@ -183,7 +183,8 @@ class MethodCallController: UITableViewController {
         
         options.gas = BigUInt(250000)
         options.gasPrice = BigUInt(25000000000)
-        options.from = EthereumAddress("0xE6877A4d8806e9A9F12eB2e8561EA6c1db19978d")
+        
+        options.from = EthereumAddress(UserDefaults.standard.string(forKey: "SelectedAddress") ?? "")
         let bkxBalance = fullContract?.method(title ?? "", parameters: parameters, options: options)?.call(options: options)
         var localResult = ""
         for (key, value) in bkxBalance ?? [:] {
