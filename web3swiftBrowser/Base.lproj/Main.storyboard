@@ -51,19 +51,25 @@
                     <navigationItem key="navigationItem" id="JE9-N6-nFF">
                         <nil key="title"/>
                         <barButtonItem key="leftBarButtonItem" image="icons8-services" id="mg1-Vm-wk6">
-                            <color key="tintColor" red="0.1137254902" green="0.14901960780000001" blue="0.23137254900000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="tintColor" red="0.32156862749999998" green="0.70588235290000001" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="openSettings:" destination="agC-Wi-p3d" id="TaG-II-vk5"/>
                                 <segue destination="9Uz-PI-KSh" kind="presentation" id="bB7-lv-CyZ"/>
                             </connections>
                         </barButtonItem>
-                        <textField key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" id="CHL-Fh-U18">
+                        <textField key="titleView" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" id="CHL-Fh-U18">
                             <rect key="frame" x="57" y="7" width="272" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="URL" returnKeyType="search" textContentType="url"/>
                         </textField>
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="Gjn-D5-nsB">
+                            <color key="tintColor" red="0.32156862749999998" green="0.70588235290000001" blue="0.20392156859999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="refreshPage:" destination="agC-Wi-p3d" id="81D-fT-Vqg"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="searchTextField" destination="CHL-Fh-U18" id="1Ci-I0-mP4"/>

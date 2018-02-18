@@ -105,6 +105,8 @@ class BrowserViewController: UIViewController, UITextFieldDelegate {
         
         webView.load(URLRequest(url: URL(string: "https://ownanumber.github.io/")!))
         searchTextField.text = "https://ownanumber.github.io/"
+        var selectedAddress = UserDefaults.standard.string(forKey: "SelectedAddress")
+
         do {
             let userDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
             let keystoreManager = KeystoreManager.managerForPath(userDir + "/keystore")
@@ -202,6 +204,10 @@ class BrowserViewController: UIViewController, UITextFieldDelegate {
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         
+    }
+    
+    @IBAction func refreshPage(_ sender: Any) {
+        webView.load(URLRequest(url: URL(string: "https://ownanumber.github.io/")!))
     }
     
     //MARK: - Confirmation Controller
