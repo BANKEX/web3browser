@@ -134,8 +134,8 @@ class MethodCallController: UITableViewController {
 //        result = ""
 //        tableView.reloadData()
         var i = 0
-        var options = Web3Options()
-
+        var options = Web3Options.defaultOptions()
+        let _ = UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
         var parameters = [AnyObject]()
         var isMutating = false
         
@@ -152,30 +152,20 @@ class MethodCallController: UITableViewController {
                 guard let text = textField?.text else {
                     return
                 }
-                if nextInput.name == "_from" ||
-                    nextInput.name == "_to" ||
-                    nextInput.name == "_owner" ||
-                    nextInput.name == "_spender" ||
-                    nextInput.name == "_user" ||
-                    nextInput.type.abiRepresentation.hasPrefix("address") {
-                    parameters.append(EthereumAddress(text) as AnyObject)
-                }
-                if nextInput.name == "_value" {
-                    guard let amount = UInt(text) else {
-                        return
-                    }
-                    parameters.append(BigUInt(amount) as AnyObject)
-                } else if nextInput.name == "_extraData" ||
-                    nextInput.type.abiRepresentation.hasPrefix("bytes") {
-                    guard let data = Data.fromHex(text) else {return}
-                    parameters.append(data as AnyObject)
-                } else if nextInput.type.abiRepresentation.hasPrefix("uint") {
-                    let characters = Array(text.flatMap{UInt(String($0))}.reversed())
-                    parameters.append(BigUInt(words: characters) as AnyObject)
-                }
-                else if nextInput.type.abiRepresentation.hasPrefix("int") {
-                    let characters = text.flatMap{UInt(String($0))}.reversed()
-                    parameters.append(BigUInt(words: characters) as AnyObject)
+                switch nextInput.type {
+                case .staticType(let type):
+                    switch type {
+                        case .address:
+                            parameters.append(EthereumAddress(text) as AnyObject)
+                            continue
+                        case .uint(bits: let bits):
+                            parameters.append(BigUInt(text, radix: 10)! as AnyObject)
+                            continue
+                        default:
+                            continue
+                        }
+                default:
+                    continue
                 }
                 if function.payable {
                     guard let number = Int((textFields["_value"]?.text) ?? "") else {
@@ -208,13 +198,19 @@ class MethodCallController: UITableViewController {
         options.from = EthereumAddress(selectedAddress)
         
         var bkxBalance: [String: Any]?
+        
         if isMutating {
-            showConfirmation(for: ["to": "-",
+            guard let intermediate = self.fullContract?.method(self.title ?? "", parameters: parameters, options: options) else {return}
+            guard let gasEsimate = intermediate.estimateGas(options: options) else {return}
+            options.gas = gasEsimate
+            let gasPrice = BigUInt(50000000000)
+            options.gasPrice = gasPrice
+            showConfirmation(for: ["to": intermediate.transaction.to.address,
                                    "from": selectedAddress,
-                                   "data": "",
-                                   "value": textFields["value"]?.text ?? ""],
+                                   "data": intermediate.transaction.data.toHexString(),
+                                   "value": Web3.Utils.formatToEthereumUnits(options.value!, toUnits: .wei, decimals: 0)],
                              confirmCallback: {
-                bkxBalance = self.fullContract?.method(self.title ?? "", parameters: parameters, options: options)?.send(password: "BANKEXFOUNDATION", options: options)
+                bkxBalance = intermediate.send(password: "BANKEXFOUNDATION", options: options)
                 self.handleResults(bkxBalance, tableView)
             }, cancelCallback: {
                 let alert = UIAlertController(title: "", message: "Your cancelled sending your transaction", preferredStyle: .alert)
