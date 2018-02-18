@@ -105,7 +105,6 @@ class BrowserViewController: UIViewController, UITextFieldDelegate {
         
         webView.load(URLRequest(url: URL(string: "https://ownanumber.github.io/")!))
         searchTextField.text = "https://ownanumber.github.io/"
-        var selectedAddress = UserDefaults.standard.string(forKey: "SelectedAddress")
 
         do {
             let userDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
@@ -134,8 +133,11 @@ class BrowserViewController: UIViewController, UITextFieldDelegate {
             completion(.success(["rpcURL": url as Any]))
         }, for: "getRPCurl")
         
+        let selectedAddress = UserDefaults.standard.string(forKey: "SelectedAddress")
         self.webView.bridge.register({ (parameters, completion) in
-            let allAccounts = web3.hookedFunctions.getAccounts()
+            let allAccounts = web3.hookedFunctions.getAccounts()?.sorted(by: { (add1, add2) -> Bool in
+                return add1 == selectedAddress
+            })
             completion(.success(["accounts": allAccounts as Any]))
         }, for: "eth_getAccounts")
         

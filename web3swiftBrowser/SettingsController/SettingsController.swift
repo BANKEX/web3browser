@@ -30,6 +30,7 @@ class SettingsController: UITableViewController {
             selectedAddress = addresses?.first?.address
             return
         }
+        tableView.reloadData()
     }
     
     // MARK: - TableViewDelegate
@@ -51,6 +52,7 @@ class SettingsController: UITableViewController {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "DefaultCell")
         let addressAtIndex = (index < addresses?.count ?? 0) ? addresses?[indexPath.row].address : nil
         cell.textLabel?.text = addressAtIndex ?? "Create New Key"
+        cell.backgroundColor = UIColor.clear
         if addressAtIndex == selectedAddress {
             cell.imageView?.image = #imageLiteral(resourceName: "icons-checked")
         }
