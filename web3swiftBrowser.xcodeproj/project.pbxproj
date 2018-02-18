@@ -19,6 +19,8 @@
 		C2C40799AB45A254C5B8B694 /* Pods_web3swiftBrowser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D2B1946592C2F6161DF2A16 /* Pods_web3swiftBrowser.framework */; };
 		F020F1982038FFEF002C3C65 /* CreateNewKeyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F020F1972038FFEF002C3C65 /* CreateNewKeyController.swift */; };
 		F07DB3552038E79D007CA1F1 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07DB3542038E79D007CA1F1 /* SettingsController.swift */; };
+		F0A911B520392B2D006460FE /* ContractMethodsListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A911B420392B2D006460FE /* ContractMethodsListController.swift */; };
+		F0A911B720392BD3006460FE /* DefaultContract.json in Resources */ = {isa = PBXBuildFile; fileRef = F0A911B620392BD3006460FE /* DefaultContract.json */; };
 		F0DD0D9C2037F94A00327D25 /* ConfirmationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DD0D9A2037F94A00327D25 /* ConfirmationController.swift */; };
 		F0DD0D9D2037F94A00327D25 /* ConfirmationController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F0DD0D9B2037F94A00327D25 /* ConfirmationController.xib */; };
 /* End PBXBuildFile section */
@@ -60,6 +62,8 @@
 		81E09B5F2002C0FF005DF51D /* Web3Swift.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Web3Swift.js; sourceTree = "<group>"; };
 		F020F1972038FFEF002C3C65 /* CreateNewKeyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewKeyController.swift; sourceTree = "<group>"; };
 		F07DB3542038E79D007CA1F1 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
+		F0A911B420392B2D006460FE /* ContractMethodsListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContractMethodsListController.swift; sourceTree = "<group>"; };
+		F0A911B620392BD3006460FE /* DefaultContract.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DefaultContract.json; sourceTree = "<group>"; };
 		F0DD0D9A2037F94A00327D25 /* ConfirmationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationController.swift; sourceTree = "<group>"; };
 		F0DD0D9B2037F94A00327D25 /* ConfirmationController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConfirmationController.xib; sourceTree = "<group>"; };
 		FE32BFE26D945D8D376882BB /* Pods-web3swiftBrowser.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-web3swiftBrowser.release.xcconfig"; path = "Pods/Target Support Files/Pods-web3swiftBrowser/Pods-web3swiftBrowser.release.xcconfig"; sourceTree = "<group>"; };
@@ -124,6 +128,7 @@
 		81E09B1E2002623A005DF51D /* web3swiftBrowser */ = {
 			isa = PBXGroup;
 			children = (
+				F0A911B320392ADA006460FE /* ContractMethodsListController */,
 				F020F1962038FFCF002C3C65 /* CreateNewKey */,
 				F07DB35320387F31007CA1F1 /* SettingsController */,
 				F0DD0D992037F92A00327D25 /* ConfirmationController */,
@@ -135,6 +140,7 @@
 				81E09B2B2002623A005DF51D /* LaunchScreen.storyboard */,
 				81E09B2E2002623A005DF51D /* Info.plist */,
 				81E09B262002623A005DF51D /* web3swiftBrowser.xcdatamodeld */,
+				F0A911B620392BD3006460FE /* DefaultContract.json */,
 			);
 			path = web3swiftBrowser;
 			sourceTree = "<group>";
@@ -171,6 +177,14 @@
 				F07DB3542038E79D007CA1F1 /* SettingsController.swift */,
 			);
 			path = SettingsController;
+			sourceTree = "<group>";
+		};
+		F0A911B320392ADA006460FE /* ContractMethodsListController */ = {
+			isa = PBXGroup;
+			children = (
+				F0A911B420392B2D006460FE /* ContractMethodsListController.swift */,
+			);
+			path = ContractMethodsListController;
 			sourceTree = "<group>";
 		};
 		F0DD0D992037F92A00327D25 /* ConfirmationController */ = {
@@ -304,6 +318,7 @@
 				81E09B2D2002623A005DF51D /* LaunchScreen.storyboard in Resources */,
 				81E09B602002C100005DF51D /* Web3Swift.js in Resources */,
 				81E09B2A2002623A005DF51D /* Assets.xcassets in Resources */,
+				F0A911B720392BD3006460FE /* DefaultContract.json in Resources */,
 				F0DD0D9D2037F94A00327D25 /* ConfirmationController.xib in Resources */,
 				81E09B252002623A005DF51D /* Main.storyboard in Resources */,
 			);
@@ -406,6 +421,7 @@
 			files = (
 				F0DD0D9C2037F94A00327D25 /* ConfirmationController.swift in Sources */,
 				F07DB3552038E79D007CA1F1 /* SettingsController.swift in Sources */,
+				F0A911B520392B2D006460FE /* ContractMethodsListController.swift in Sources */,
 				F020F1982038FFEF002C3C65 /* CreateNewKeyController.swift in Sources */,
 				81E09B222002623A005DF51D /* ViewController.swift in Sources */,
 				81E09B282002623A005DF51D /* web3swiftBrowser.xcdatamodeld in Sources */,

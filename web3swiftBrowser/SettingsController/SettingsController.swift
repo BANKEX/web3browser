@@ -49,6 +49,9 @@ class SettingsController: UITableViewController {
         if index == (addresses?.count ?? 0) {
             return tableView.dequeueReusableCell(withIdentifier: "CreateNewKey")!
         }
+        else if index == (addresses?.count ?? 0) + 1 {
+            return tableView.dequeueReusableCell(withIdentifier: "WorkWithContracts")!
+        }
         let cell = UITableViewCell(style: .default, reuseIdentifier: "DefaultCell")
         let addressAtIndex = (index < addresses?.count ?? 0) ? addresses?[indexPath.row].address : nil
         cell.textLabel?.text = addressAtIndex ?? "Create New Key"
@@ -60,7 +63,7 @@ class SettingsController: UITableViewController {
     }
 //
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return (addresses?.count ?? 0) + 1
+        return (addresses?.count ?? 0) + 2
     }
 
 }
