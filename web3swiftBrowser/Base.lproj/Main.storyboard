@@ -72,6 +72,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="searchTextField" destination="CHL-Fh-U18" id="1Ci-I0-mP4"/>
+                        <outlet property="settingsBarButton" destination="mg1-Vm-wk6" id="fuW-2J-OOs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8ZW-1m-OOI" userLabel="First Responder" sceneMemberID="firstResponder"/>

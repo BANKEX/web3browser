@@ -25,7 +25,9 @@ class BrowserViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: Settings Constants:
     let askConfirmationForSigning = true
-
+    let shouldHideSettingsButton = false
+    
+    // MARK: -
     enum Method: String {
         case getAccounts
         case signTransaction
@@ -48,6 +50,9 @@ class BrowserViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if shouldHideSettingsButton {
+            navigationItem.leftBarButtonItem = nil
+        }
 //        navigationController?.isNavigationBarHidden = true
 //        navigationController?.hidesBarsOnTap = true
 //        navigationController?.hidesBarsWhenVerticallyCompact = true
@@ -90,6 +95,7 @@ class BrowserViewController: UIViewController, UITextFieldDelegate {
     
     @IBAction func unwindFromModal(segue:UIStoryboardSegue) { }
 
+    @IBOutlet weak var settingsBarButton: UIBarButtonItem!
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
