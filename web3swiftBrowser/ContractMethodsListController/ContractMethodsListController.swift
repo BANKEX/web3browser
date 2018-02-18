@@ -19,6 +19,8 @@ class ContractMethodsListController: UITableViewController {
     var keysOfMethods = [String]()
     var selectedMethod: String?
     var didUpdate = false
+    var fullContract: web3.web3contract?
+    
 //    override func viewWillAppear(_ animated: Bool) {
 //        super.viewWillAppear(animated)
 //        selectedMethod = nil
@@ -56,10 +58,13 @@ class ContractMethodsListController: UITableViewController {
             options.gas = BigUInt(250000)
             options.gasPrice = BigUInt(25000000000)
             options.from = EthereumAddress("0xE6877A4d8806e9A9F12eB2e8561EA6c1db19978d")
-            let parameters = [] as [AnyObject]
             let web3Main = Web3.InfuraMainnetWeb3()
             web3Main.addKeystoreManager(keystoreManager)
+            
+            let parameters = [] as [AnyObject]
+
             let contract = web3Main.contract(jsonString, at: constractAddress)
+            fullContract = contract
             let intermediate = contract?.method("name", parameters:parameters,  options: options)
             contractToShow = contract?.contract
             for (key, _) in contractToShow?.methods ?? [:] {
@@ -72,44 +77,44 @@ class ContractMethodsListController: UITableViewController {
             let bkxBalance = contract?.method("balanceOf", parameters: [coldWalletAddress] as [AnyObject], options: options)?.call(options: nil)
             guard let bkx = bkxBalance, let bal = bkx["0"] as? BigUInt else {return}
             print("BKX token balance = " + String(bal))
-            let erc20receipt = web3Main.eth.getTransactionReceipt("0x76bb19c0b7e2590f724871960599d28db99cd587506fdfea94062f9c8d61eb30")
-            for l in (erc20receipt?.logs)! {
-                guard let result = contract?.parseEvent(l), let name = result.eventName, let data = result.eventData else {continue}
-                print("Parsed event " + name)
-                print("Parsed content")
-                print(data)
-            }
+//            let erc20receipt = web3Main.eth.getTransactionReceipt("0x76bb19c0b7e2590f724871960599d28db99cd587506fdfea94062f9c8d61eb30")
+//            for l in (erc20receipt?.logs)! {
+//                guard let result = contract?.parseEvent(l), let name = result.eventName, let data = result.eventData else {continue}
+//                print("Parsed event " + name)
+//                print("Parsed content")
+//                print(data)
+//            }
             // Block number on Main
             
-            let blockNumber = web3Main.eth.getBlockNumber()
-            print("Block number = " + String(blockNumber!))
-            
-            
-            let gasPrice = web3Main.eth.getGasPrice()
-            print("Gas price = " + String(gasPrice!))
+//            let blockNumber = web3Main.eth.getBlockNumber()
+//            print("Block number = " + String(blockNumber!))
+//
+//
+//            let gasPrice = web3Main.eth.getGasPrice()
+//            print("Gas price = " + String(gasPrice!))
             
             
             //Send on Rinkeby
             
-            let web3Rinkeby = Web3.InfuraRinkebyWeb3()
-            web3Rinkeby.addKeystoreManager(keystoreManager)
-            let coldWalletABI = "[{\"payable\":true,\"type\":\"fallback\"}]"
-            
-            options = Web3Options.defaultOptions()
-            options.gas = BigUInt(21000)
-            options.from = ks?.addresses?.first!
-            options.value = BigUInt(1000000000000000)
-            options.from = sender
-            var estimatedGas = web3Rinkeby.contract(coldWalletABI, at: coldWalletAddress)?.method(options: options)?.estimateGas(options: nil)
-            options.gas = estimatedGas
-            var intermediateSend = web3Rinkeby.contract(coldWalletABI, at: coldWalletAddress)?.method(options: options)
-            res = intermediateSend?.send(password: "BANKEXFOUNDATION")
-            let derivedSender = intermediateSend?.transaction.sender
-            if (derivedSender?.address != sender.address) {
-                print(derivedSender!.address)
-                print(sender.address)
-                print("Address mismatch")
-            }
+//            let web3Rinkeby = Web3.InfuraRinkebyWeb3()
+//            web3Rinkeby.addKeystoreManager(keystoreManager)
+//            let coldWalletABI = "[{\"payable\":true,\"type\":\"fallback\"}]"
+//
+//            options = Web3Options.defaultOptions()
+//            options.gas = BigUInt(21000)
+//            options.from = ks?.addresses?.first!
+//            options.value = BigUInt(1000000000000000)
+//            options.from = sender
+//            var estimatedGas = web3Rinkeby.contract(coldWalletABI, at: coldWalletAddress)?.method(options: options)?.estimateGas(options: nil)
+//            options.gas = estimatedGas
+//            var intermediateSend = web3Rinkeby.contract(coldWalletABI, at: coldWalletAddress)?.method(options: options)
+//            res = intermediateSend?.send(password: "BANKEXFOUNDATION")
+//            let derivedSender = intermediateSend?.transaction.sender
+//            if (derivedSender?.address != sender.address) {
+//                print(derivedSender!.address)
+//                print(sender.address)
+//                print("Address mismatch")
+//            }
 //            let txid = res!["txhash"] as? String
 //            print("On Rinkeby TXid = " + txid!)
 //            
@@ -119,27 +124,27 @@ class ContractMethodsListController: UITableViewController {
             
             
             //                Send mutating transaction taking parameters
-            let testABIonRinkeby = "[{\"constant\":true,\"inputs\":[],\"name\":\"counter\",\"outputs\":[{\"name\":\"\",\"type\":\"uint8\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_value\",\"type\":\"uint8\"}],\"name\":\"increaseCounter\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"}]"
-            let deployedTestAddress = EthereumAddress("0x1e528b190b6acf2d7c044141df775c7a79d68eba")
-            options = Web3Options.defaultOptions()
-            options.gas = BigUInt(100000)
-            options.value = BigUInt(0)
-            options.from = ks?.addresses![0]
-            let testParameters = [BigUInt(1)] as [AnyObject]
-            estimatedGas = web3Rinkeby.contract(testABIonRinkeby, at: deployedTestAddress)?.method("increaseCounter", parameters: testParameters, options: options)?.estimateGas(options: nil)
-            options.gas = estimatedGas
-            let testMutationResult = web3Rinkeby.contract(testABIonRinkeby, at: deployedTestAddress)?.method("increaseCounter", parameters: testParameters, options: options)?.send(password: "BANKEXFOUNDATION")
-            
-            print(testMutationResult)
-            //get TX details
-            
-            let details = web3Rinkeby.eth.getTransactionDetails("0x8ef43236af52e344353590c54089d5948e2182c231751ac1fb370409fdd0c76a")
-            
-            print(details)
-            var receipt = web3Rinkeby.eth.getTransactionReceipt("0x8ef43236af52e344353590c54089d5948e2182c231751ac1fb370409fdd0c76a")
-            print(receipt)
-            receipt =  web3Rinkeby.eth.getTransactionReceipt("0x5f36355eae23e164003753f6e794567f963a658effab922620bb64459f130e1e")
-            print(receipt)
+//            let testABIonRinkeby = "[{\"constant\":true,\"inputs\":[],\"name\":\"counter\",\"outputs\":[{\"name\":\"\",\"type\":\"uint8\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"name\":\"_value\",\"type\":\"uint8\"}],\"name\":\"increaseCounter\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"}]"
+//            let deployedTestAddress = EthereumAddress("0x1e528b190b6acf2d7c044141df775c7a79d68eba")
+//            options = Web3Options.defaultOptions()
+//            options.gas = BigUInt(100000)
+//            options.value = BigUInt(0)
+//            options.from = ks?.addresses![0]
+//            let testParameters = [BigUInt(1)] as [AnyObject]
+//            estimatedGas = web3Rinkeby.contract(testABIonRinkeby, at: deployedTestAddress)?.method("increaseCounter", parameters: testParameters, options: options)?.estimateGas(options: nil)
+//            options.gas = estimatedGas
+//            let testMutationResult = web3Rinkeby.contract(testABIonRinkeby, at: deployedTestAddress)?.method("increaseCounter", parameters: testParameters, options: options)?.send(password: "BANKEXFOUNDATION")
+//
+//            print(testMutationResult)
+//            //get TX details
+//
+//            let details = web3Rinkeby.eth.getTransactionDetails("0x8ef43236af52e344353590c54089d5948e2182c231751ac1fb370409fdd0c76a")
+//
+//            print(details)
+//            var receipt = web3Rinkeby.eth.getTransactionReceipt("0x8ef43236af52e344353590c54089d5948e2182c231751ac1fb370409fdd0c76a")
+//            print(receipt)
+//            receipt =  web3Rinkeby.eth.getTransactionReceipt("0x5f36355eae23e164003753f6e794567f963a658effab922620bb64459f130e1e")
+//            print(receipt)
             
         }
         catch{
@@ -181,6 +186,8 @@ class ContractMethodsListController: UITableViewController {
                 return
             }
             controller.abiToCall = contractToShow?.methods[selectedMethod ?? ""]
+            controller.fullContract = fullContract
+            controller.contract = contractToShow
             controller.title = selectedMethod ?? ""
         }
     }
