@@ -107,6 +107,27 @@ class MethodCallController: UITableViewController {
         }
     }
     
+    fileprivate func handleResults(_ bkxBalance: [String : Any]?, _ tableView: UITableView) {
+        var localResult = ""
+        for (key, value) in bkxBalance ?? [:] {
+            print("\(key) = \(value)")
+            localResult += "\(key) = \(value)\n"
+        }
+        for (_, textfield) in textFields {
+            textfield.text = ""
+        }
+        if localResult.count > 0 {
+            let alert = UIAlertController(title: "Result", message: localResult, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+        } else {
+            let alert = UIAlertController(title: "Result", message: "No valid result for request", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "So sad :-(", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+        }
+        tableView.reloadData()
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard indexPath.row == numberOfItems - 1,
             let abiToCall = abiToCall else {return}
@@ -120,7 +141,7 @@ class MethodCallController: UITableViewController {
         
         switch abiToCall {
         case .function(let function):
-//            isMutating = !function.constant
+            isMutating = !function.constant
             for nextInput in function.inputs {
                 var key = nextInput.name
                 if key.count == 0 {
@@ -183,32 +204,47 @@ class MethodCallController: UITableViewController {
         options.gas = BigUInt(250000)
         options.gasPrice = BigUInt(25000000000)
         
-        options.from = EthereumAddress(UserDefaults.standard.string(forKey: "SelectedAddress") ?? "")
+        let selectedAddress = UserDefaults.standard.string(forKey: "SelectedAddress") ?? ""
+        options.from = EthereumAddress(selectedAddress)
         
         var bkxBalance: [String: Any]?
         if isMutating {
-            bkxBalance = fullContract?.method(title ?? "", parameters: parameters, options: options)?.send(password: "BANKEXFOUNDATION", options: options)
+            showConfirmation(for: ["to": "-",
+                                   "from": selectedAddress,
+                                   "data": "",
+                                   "value": textFields["value"]?.text ?? ""],
+                             confirmCallback: {
+                bkxBalance = self.fullContract?.method(self.title ?? "", parameters: parameters, options: options)?.send(password: "BANKEXFOUNDATION", options: options)
+                self.handleResults(bkxBalance, tableView)
+            }, cancelCallback: {
+                let alert = UIAlertController(title: "", message: "Your cancelled sending your transaction", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Up to you", style: .default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
+            })
         } else {
-         bkxBalance = fullContract?.method(title ?? "", parameters: parameters, options: options)?.call(options: options)
+            bkxBalance = fullContract?.method(title ?? "", parameters: parameters, options: options)?.call(options: options)
+            handleResults(bkxBalance, tableView)
         }
-        var localResult = ""
-        for (key, value) in bkxBalance ?? [:] {
-            print("\(key) = \(value)")
-            localResult += "\(key) = \(value)\n"
-        }
-        for (_, textfield) in textFields {
-            textfield.text = ""
-        }
-        if localResult.count > 0 {
-            let alert = UIAlertController(title: "Result", message: localResult, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
-            present(alert, animated: true, completion: nil)
-        } else {
-            let alert = UIAlertController(title: "Result", message: "No valid result for request", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "So sad :-(", style: .default, handler: nil))
-            present(alert, animated: true, completion: nil)
-        }
-        tableView.reloadData()
+        
     }
     var result = ""
+    
+    
+    var confirmationController: ConfirmationController?
+    fileprivate func showConfirmation(for transaction: [String: Any],
+                                      confirmCallback: @escaping ()->Void,
+                                      cancelCallback: @escaping ()->Void) {
+
+        confirmationController = nil
+        confirmationController = ConfirmationController()
+        confirmationController?.view.frame = (navigationController?.view.frame)!
+        confirmationController?.configure(with: transaction,
+                                          confirmBlock: confirmCallback,
+                                          cancelBlock: cancelCallback)
+        navigationController?.view.addSubview(confirmationController!.view)
+        confirmationController!.view.alpha = 0
+        UIView.animate(withDuration: 0.25) {
+            self.confirmationController!.view.alpha = 1
+        }
+    }
 }
