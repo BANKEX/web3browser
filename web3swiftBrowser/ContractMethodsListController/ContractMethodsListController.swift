@@ -59,7 +59,7 @@ class ContractMethodsListController: UITableViewController {
             
             // BKX TOKEN
 //            let coldWalletAddress = EthereumAddress("0x6394b37Cf80A7358b38068f0CA4760ad49983a1B")
-            let constractAddress = EthereumAddress("0x324f8c6d8c0801cdddd86d1936d8ce7b95f8a654")
+            let constractAddress = EthereumAddress("0xd8ac480331870c5764b5430f854926b1cfd1d8b1")
 //            var options = Web3Options()
 //            options.gas = BigUInt(250000)
 //            options.gasPrice = BigUInt(25000000000)
