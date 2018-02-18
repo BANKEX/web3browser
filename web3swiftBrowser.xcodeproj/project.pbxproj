@@ -17,6 +17,8 @@
 		81E09B432002623B005DF51D /* web3swiftBrowserUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E09B422002623B005DF51D /* web3swiftBrowserUITests.swift */; };
 		81E09B602002C100005DF51D /* Web3Swift.js in Resources */ = {isa = PBXBuildFile; fileRef = 81E09B5F2002C0FF005DF51D /* Web3Swift.js */; };
 		C2C40799AB45A254C5B8B694 /* Pods_web3swiftBrowser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D2B1946592C2F6161DF2A16 /* Pods_web3swiftBrowser.framework */; };
+		F020F1982038FFEF002C3C65 /* CreateNewKeyController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F020F1972038FFEF002C3C65 /* CreateNewKeyController.swift */; };
+		F07DB3552038E79D007CA1F1 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F07DB3542038E79D007CA1F1 /* SettingsController.swift */; };
 		F0DD0D9C2037F94A00327D25 /* ConfirmationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DD0D9A2037F94A00327D25 /* ConfirmationController.swift */; };
 		F0DD0D9D2037F94A00327D25 /* ConfirmationController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F0DD0D9B2037F94A00327D25 /* ConfirmationController.xib */; };
 /* End PBXBuildFile section */
@@ -56,6 +58,8 @@
 		81E09B422002623B005DF51D /* web3swiftBrowserUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = web3swiftBrowserUITests.swift; sourceTree = "<group>"; };
 		81E09B442002623B005DF51D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		81E09B5F2002C0FF005DF51D /* Web3Swift.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Web3Swift.js; sourceTree = "<group>"; };
+		F020F1972038FFEF002C3C65 /* CreateNewKeyController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewKeyController.swift; sourceTree = "<group>"; };
+		F07DB3542038E79D007CA1F1 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		F0DD0D9A2037F94A00327D25 /* ConfirmationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationController.swift; sourceTree = "<group>"; };
 		F0DD0D9B2037F94A00327D25 /* ConfirmationController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConfirmationController.xib; sourceTree = "<group>"; };
 		FE32BFE26D945D8D376882BB /* Pods-web3swiftBrowser.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-web3swiftBrowser.release.xcconfig"; path = "Pods/Target Support Files/Pods-web3swiftBrowser/Pods-web3swiftBrowser.release.xcconfig"; sourceTree = "<group>"; };
@@ -120,6 +124,8 @@
 		81E09B1E2002623A005DF51D /* web3swiftBrowser */ = {
 			isa = PBXGroup;
 			children = (
+				F020F1962038FFCF002C3C65 /* CreateNewKey */,
+				F07DB35320387F31007CA1F1 /* SettingsController */,
 				F0DD0D992037F92A00327D25 /* ConfirmationController */,
 				81E09B5F2002C0FF005DF51D /* Web3Swift.js */,
 				81E09B1F2002623A005DF51D /* AppDelegate.swift */,
@@ -149,6 +155,22 @@
 				81E09B442002623B005DF51D /* Info.plist */,
 			);
 			path = web3swiftBrowserUITests;
+			sourceTree = "<group>";
+		};
+		F020F1962038FFCF002C3C65 /* CreateNewKey */ = {
+			isa = PBXGroup;
+			children = (
+				F020F1972038FFEF002C3C65 /* CreateNewKeyController.swift */,
+			);
+			path = CreateNewKey;
+			sourceTree = "<group>";
+		};
+		F07DB35320387F31007CA1F1 /* SettingsController */ = {
+			isa = PBXGroup;
+			children = (
+				F07DB3542038E79D007CA1F1 /* SettingsController.swift */,
+			);
+			path = SettingsController;
 			sourceTree = "<group>";
 		};
 		F0DD0D992037F92A00327D25 /* ConfirmationController */ = {
@@ -383,6 +405,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F0DD0D9C2037F94A00327D25 /* ConfirmationController.swift in Sources */,
+				F07DB3552038E79D007CA1F1 /* SettingsController.swift in Sources */,
+				F020F1982038FFEF002C3C65 /* CreateNewKeyController.swift in Sources */,
 				81E09B222002623A005DF51D /* ViewController.swift in Sources */,
 				81E09B282002623A005DF51D /* web3swiftBrowser.xcdatamodeld in Sources */,
 				81E09B202002623A005DF51D /* AppDelegate.swift in Sources */,

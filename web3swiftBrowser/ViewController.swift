@@ -48,7 +48,7 @@ class BrowserViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.isNavigationBarHidden = true
+//        navigationController?.isNavigationBarHidden = true
 //        navigationController?.hidesBarsOnTap = true
 //        navigationController?.hidesBarsWhenVerticallyCompact = true
     }
@@ -88,6 +88,9 @@ class BrowserViewController: UIViewController, UITextFieldDelegate {
         return config
     }()
     
+    @IBAction func unwindFromModal(segue:UIStoryboardSegue) { }
+
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         webView.translatesAutoresizingMaskIntoConstraints = false
@@ -109,7 +112,7 @@ class BrowserViewController: UIViewController, UITextFieldDelegate {
             if keystoreManager?.addresses?.isEmpty ?? true {
                 ks = try EthereumKeystoreV3(password: "BANKEXFOUNDATION")
                 let keydata = try JSONEncoder().encode(ks!.keystoreParams)
-                FileManager.default.createFile(atPath: userDir + "/keystore"+"/key.json", contents: keydata, attributes: nil)
+                FileManager.default.createFile(atPath: userDir + "/keystore/" + (ks?.addresses?.first?.address ?? "") + ".json", contents: keydata, attributes: nil)
             }
             guard let sender = keystoreManager?.addresses?.first else {return}
             print(sender)
