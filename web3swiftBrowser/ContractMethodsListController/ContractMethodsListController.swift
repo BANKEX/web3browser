@@ -46,37 +46,43 @@ class ContractMethodsListController: UITableViewController {
                 let keydata = try JSONEncoder().encode(ks!.keystoreParams)
                 FileManager.default.createFile(atPath: userDir + "/keystore"+"/key.json", contents: keydata, attributes: nil)
             } else {
-                ks = keystoreManager?.walletForAddress((keystoreManager?.addresses![0])!) as! EthereumKeystoreV3
+                let addressToSearch = UserDefaults.standard.string(forKey: "SelectedAddress")
+                
+                let index = keystoreManager?.addresses?.index(where: { (address) -> Bool in
+                    return address.address == addressToSearch
+                }) ?? 0
+                
+                ks = keystoreManager?.walletForAddress((keystoreManager?.addresses![index])!) as? EthereumKeystoreV3
             }
             guard let sender = ks?.addresses?.first else {return}
-            print(sender)
+            print("sender = \(sender)")
             
             // BKX TOKEN
-            let coldWalletAddress = EthereumAddress("0x6394b37Cf80A7358b38068f0CA4760ad49983a1B")
-            let constractAddress = EthereumAddress("0x45245bc59219eeaaf6cd3f382e078a461ff9de7b")
-            var options = Web3Options()
-            options.gas = BigUInt(250000)
-            options.gasPrice = BigUInt(25000000000)
-            options.from = EthereumAddress("0xE6877A4d8806e9A9F12eB2e8561EA6c1db19978d")
-            let web3Main = Web3.InfuraMainnetWeb3()
+//            let coldWalletAddress = EthereumAddress("0x6394b37Cf80A7358b38068f0CA4760ad49983a1B")
+            let constractAddress = EthereumAddress("0xd8ac480331870c5764b5430f854926b1cfd1d8b1")
+//            var options = Web3Options()
+//            options.gas = BigUInt(250000)
+//            options.gasPrice = BigUInt(25000000000)
+//            options.from = EthereumAddress("0xE6877A4d8806e9A9F12eB2e8561EA6c1db19978d")
+            let web3Main = Web3.InfuraRinkebyWeb3()
             web3Main.addKeystoreManager(keystoreManager)
-            
-            let parameters = [] as [AnyObject]
-
+//
+//            let parameters = [] as [AnyObject]
+//
             let contract = web3Main.contract(jsonString, at: constractAddress)
             fullContract = contract
-            let intermediate = contract?.method("name", parameters:parameters,  options: options)
+//            let intermediate = contract?.method("name", parameters:parameters,  options: options)
             contractToShow = contract?.contract
             for (key, _) in contractToShow?.methods ?? [:] {
                 keysOfMethods.append(key)
             }
-            var res = intermediate?.call(options: options)
-            guard let result = res else {return}
-            print("BKX token name = " + (result["0"] as! String))
-            
-            let bkxBalance = contract?.method("balanceOf", parameters: [coldWalletAddress] as [AnyObject], options: options)?.call(options: nil)
-            guard let bkx = bkxBalance, let bal = bkx["0"] as? BigUInt else {return}
-            print("BKX token balance = " + String(bal))
+//            var res = intermediate?.call(options: options)
+//            guard let result = res else {return}
+//            print("BKX token name = " + (result["0"] as! String))
+//
+//            let bkxBalance = contract?.method("balanceOf", parameters: [coldWalletAddress] as [AnyObject], options: options)?.call(options: nil)
+//            guard let bkx = bkxBalance, let bal = bkx["0"] as? BigUInt else {return}
+//            print("BKX token balance = " + String(bal))
 //            let erc20receipt = web3Main.eth.getTransactionReceipt("0x76bb19c0b7e2590f724871960599d28db99cd587506fdfea94062f9c8d61eb30")
 //            for l in (erc20receipt?.logs)! {
 //                guard let result = contract?.parseEvent(l), let name = result.eventName, let data = result.eventData else {continue}

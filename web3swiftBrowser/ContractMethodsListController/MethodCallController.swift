@@ -30,10 +30,10 @@ class MethodCallController: UITableViewController {
         // #warning Incomplete implementation, return the number of rows
         switch abiToCall {
         case .function(let abiFunc):
-            numberOfItems = (abiFunc.inputs.count == 0) ? 1 : abiFunc.inputs.count + 2
+            numberOfItems = (abiFunc.inputs.count == 0 && !abiFunc.payable) ? 1 : abiFunc.inputs.count + 2
             numberOfItems += abiFunc.payable ? 1 : 0
         case .constructor(let constructor):
-            numberOfItems = (constructor.inputs.count == 0) ? 1 : constructor.inputs.count + 2
+            numberOfItems = (constructor.inputs.count == 0 && !constructor.payable) ? 1 : constructor.inputs.count + 2
             numberOfItems += constructor.payable ? 1 : 0
         case .fallback(let fallback):
             numberOfItems = 0
@@ -42,6 +42,7 @@ class MethodCallController: UITableViewController {
         default:
             return 0
         }
+        numberOfItems += (result.count > 0 ? 1 : 0)
         return numberOfItems
     }
 
@@ -53,34 +54,55 @@ class MethodCallController: UITableViewController {
         guard let abiToCall = abiToCall else {
             return tableView.dequeueReusableCell(withIdentifier: firstCellId)!
         }
-        if numberOfItems == 1 {
-            return tableView.dequeueReusableCell(withIdentifier: callMethodCellId)!
+        if numberOfItems == 1 &&  result.count == 0 ||
+            numberOfItems == 2 && result.count > 0 {
+            if indexPath.row == 0 {
+                return tableView.dequeueReusableCell(withIdentifier: callMethodCellId)!
+            }
+            else {
+                let cell = UITableViewCell(style: .default, reuseIdentifier: "smth")
+                cell.textLabel?.text = result
+                cell.backgroundColor = UIColor.clear
+                return cell
+            }
         }
         else if indexPath.row == 0 {
             return tableView.dequeueReusableCell(withIdentifier: firstCellId)!
-        } else if indexPath.row == numberOfItems - 1 {
+        } else if (indexPath.row == numberOfItems - 2 && result.count > 0) ||
+            (indexPath.row == numberOfItems - 1 && result.count == 0)  {
             return tableView.dequeueReusableCell(withIdentifier: callMethodCellId)!
-        } else {
+        } else if indexPath.row == numberOfItems - 1 && result.count > 0 {
+            let cell = UITableViewCell(style: .default, reuseIdentifier: "smth")
+            cell.textLabel?.text = result
+            cell.backgroundColor = UIColor.clear
+            return cell
+        }
+        else {
             let cell = tableView.dequeueReusableCell(withIdentifier: inputDataCellId) as! InputParameterCell
             switch abiToCall {
             case .function(let function):
                 if indexPath.row - 1 == function.inputs.count && function.payable {
                     cell.parameterNameLabel.text = "_value"
+                    cell.parameterValueTextField.placeholder = ""
                 } else {
                     cell.parameterNameLabel.text = function.inputs[indexPath.row - 1].name
+                    cell.parameterValueTextField.placeholder = function.inputs[indexPath.row - 1].type.abiRepresentation
                 }
             case .constructor(let construct):
                 if indexPath.row - 1 == construct.inputs.count && construct.payable {
                     cell.parameterNameLabel.text = "_value"
                 } else {
                     cell.parameterNameLabel.text = construct.inputs[indexPath.row - 1].name
+                    cell.parameterValueTextField.placeholder = construct.inputs[indexPath.row - 1].type.abiRepresentation
                 }
             case .event(let event):
                 cell.parameterNameLabel.text = event.inputs[indexPath.row - 1].name
+                cell.parameterValueTextField.placeholder = event.inputs[indexPath.row - 1].type.abiRepresentation
             default:
                 cell.parameterNameLabel.text = ""
             }
-            textFields[cell.parameterNameLabel.text!] = cell.parameterValueTextField
+            let key = cell.parameterNameLabel.text!.count > 0 ? cell.parameterNameLabel.text! : "\(indexPath.row - 1)"
+            textFields[key] = cell.parameterValueTextField
             return cell
         }
     }
@@ -88,19 +110,28 @@ class MethodCallController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard indexPath.row == numberOfItems - 1,
             let abiToCall = abiToCall else {return}
-        
+//        result = ""
+//        tableView.reloadData()
+        var i = 0
         var parameters = [AnyObject]()
         switch abiToCall {
         case .function(let function):
             for nextInput in function.inputs {
-                let textField = textFields[nextInput.name]
+                var key = nextInput.name
+                if key.count == 0 {
+                    key = "\(i)"
+                    i += 1
+                }
+                let textField = textFields[key]
                 guard let text = textField?.text else {
                     return
                 }
                 if nextInput.name == "_from" ||
                     nextInput.name == "_to" ||
                     nextInput.name == "_owner" ||
-                    nextInput.name == "_spender" {
+                    nextInput.name == "_spender" ||
+                    nextInput.name == "_user" ||
+                    nextInput.type.abiRepresentation.hasPrefix("address") {
                     parameters.append(EthereumAddress(text) as AnyObject)
                 }
                 if nextInput.name == "_value" {
@@ -111,6 +142,17 @@ class MethodCallController: UITableViewController {
                 } else if nextInput.name == "_extraData" {
                     guard let data = Data.fromHex(text) else {return}
                     parameters.append(data as AnyObject)
+                } else if nextInput.type.abiRepresentation.hasPrefix("uint") {
+                    guard let number = UInt(text) else {
+                        return
+                    }
+                    parameters.append(number as AnyObject)
+                }
+                else if nextInput.type.abiRepresentation.hasPrefix("int") {
+                    guard let number = Int(text) else {
+                        return
+                    }
+                    parameters.append(number as AnyObject)
                 }
             }
 //            if indexPath.row - 1 == function.inputs.count && function.payable {
@@ -129,13 +171,31 @@ class MethodCallController: UITableViewController {
         default:
             let i = 1;
         }
-        print("\(parameters)")
         
         var options = Web3Options()
         options.gas = BigUInt(250000)
         options.gasPrice = BigUInt(25000000000)
         options.from = EthereumAddress("0xE6877A4d8806e9A9F12eB2e8561EA6c1db19978d")
         let bkxBalance = fullContract?.method(title ?? "", parameters: parameters, options: options)?.call(options: nil)
-        print("\(bkxBalance)")
+        var localResult = ""
+        for (key, value) in bkxBalance ?? [:] {
+            print("\(key) = \(value)")
+            localResult += "\(value)\n"
+        }
+        for (_, textfield) in textFields {
+            textfield.text = ""
+        }
+        if localResult.count > 0 {
+            let alert = UIAlertController(title: "Result", message: localResult, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+        } else {
+            let alert = UIAlertController(title: "Result", message: "No valid result for request", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "So sad :-(", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+        }
+//        result = "\(bkxBalance?.values)" as? String ?? ""
+        tableView.reloadData()
     }
+    var result = ""
 }
