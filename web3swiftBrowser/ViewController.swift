@@ -23,6 +23,8 @@ enum JSRequestsError: String {
 
 class BrowserViewController: UIViewController, UITextFieldDelegate {
     
+    let sURL =  "https://bankex.github.io/ETHDenver_Demo"
+
     // MARK: Settings Constants:
     let askConfirmationForSigning = true
     let shouldHideSettingsButton = false
@@ -109,8 +111,8 @@ class BrowserViewController: UIViewController, UITextFieldDelegate {
             webView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             ])
         
-        webView.load(URLRequest(url: URL(string: "https://ownanumber.github.io/")!))
-        searchTextField.text = "https://ownanumber.github.io/"
+        webView.load(URLRequest(url: URL(string: sURL)!))
+        searchTextField.text = sURL
 
         do {
             let userDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
@@ -215,7 +217,7 @@ class BrowserViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func refreshPage(_ sender: Any) {
-        webView.load(URLRequest(url: URL(string: "https://ownanumber.github.io/")!))
+        webView.load(URLRequest(url: URL(string: sURL)!))
     }
     
     //MARK: - Confirmation Controller
